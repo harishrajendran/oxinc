@@ -9,9 +9,14 @@ namespace Oxinc.Controllers
     public class StudentController : Controller
     {
         // GET: Student
-        public ActionResult StudentView(string name)
+        public ActionResult StudentView()
         {
-            return PartialView(name);
+            return PartialView();
+        }
+
+        public ActionResult StudentBulkView()
+        {
+            return PartialView();
         }
     }
 }

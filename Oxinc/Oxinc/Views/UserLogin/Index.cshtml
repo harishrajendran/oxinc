@@ -44,7 +44,7 @@
                                     <label for="password">Password</label>
                                     @Html.ValidationMessageFor(x => x.loginname)
                                     @Html.ValidationMessageFor(x => x.password)
-                                    <label class="field-validation-error">@Html.DisplayFor(x => x.loginerrormessage)</label>
+                                    
                                 </div>
                             </div>
                             <div class="row">
@@ -54,10 +54,7 @@
                                 </button>
                             </div>
                             <div class="row">
-                                <ul>
-                                    <li>
-                                        <a class="yellow-text text-darken-3 center-align" href="#modal1">Forgot  your Password?</a>
-                                    </li>
+                                <ul>                                    
                                     <li>
                                         <label class="field-validation-error">@Html.DisplayFor(x => x.loginerrormessage)</label>
                                     </li>

@@ -1,0 +1,56 @@
+﻿@model Oxinc.Models.UserLogin
+
+<html>
+
+<body>
+    <div class="col s4 m4 center-align offset-s3"></div>
+    <div class="col s4 m4 center-align offset-s3">
+        <div class="form-horizontal">
+            <div class="file-field input-field">
+                <div class="btn">
+                    <span>File</span>
+                    <input type="file" id="UserFile">
+                </div>
+                <div class="file-path-wrapper">
+                    <input class="file-path validate" type="text">
+                </div>
+                <button class="btn-large waves-effect waves-light center-align push-s12 hoverable s12" onclick="submit()" id="UserBulk" name="action">
+                    Submit
+                    <i class="material-icons right center-align s10">send</i>
+                </button>
+            </div>
+        </div>
+        </div>
+        <script type="text/javascript" src="~/Content/js/materialize.js"></script>
+        <script type="text/javascript" src="~/Content/js/jquery-3.3.1.js"></script>
+        <script type="text/javascript">
+            function submit() {
+                debugger
+                var fileUpload = $("#UserFile").get(0);
+                var files = fileUpload.files;
+
+                // Create FormData object
+                var fileData = new FormData();
+
+                //  add it to FormData object
+                fileData.append(files[0].name, files[0]);
+
+                // Adding one more key to FormData object
+                fileData.append('username', '');
+                $.ajax({
+                    type: "Post",
+                    url: "@Url.Action("CreateUserBulk", "User")",
+                    contentType: false, // Not to set any content header
+                    processData: false, // Not to process data
+                    data: fileData,
+                    success: function (result) {
+                        alert(result);
+                    },
+                    error: function (err) {
+                        alert(err.statusText);
+                    }
+                });
+            }
+        </script>
+</body>
+</html>
