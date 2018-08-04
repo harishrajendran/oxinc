@@ -1,0 +1,220 @@
+﻿
+@{
+    Layout = null;
+    if (Session["UserId"] == null)
+    {
+        Response.Redirect("~/UserLogin/Index");
+    }
+}
+
+<!DOCTYPE html>
+
+<html>
+<head>
+    <!--Import Google Icon Font-->
+    <link href="https://fonts.googleapis.com/icon?family=Material+Icons" rel="stylesheet">
+    <!--Import materialize.css-->
+    <link type="text/css" rel="stylesheet" href="~/Content/css/materialize.min.css" media="screen,projection" />
+
+    <!--Let browser know website is optimized for mobile-->
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+</head>
+<body>
+    <div>
+        <header>
+            <nav class="nav-extended white">
+                <div class="nav-wrapper">
+                    <ul id="nav-mobile" class="right hide-on-med-and-down">
+                        <li><a href="@Url.Action("LogOut","UserLogin")" class="black-text">LogOut</a></li>
+                    </ul>
+                    <a href="#" data-target="slide-out" class="sidenav-trigger left show-on-large"><i class="material-icons black-text show-on-large">menu</i></a>
+                </div>
+                @*  <div class="nav-content">*@
+                @* <ul class="tabs">*@
+                @*<li class="tab black-text"><a class="active" id="Tab1" href="#test1">Test 1</a></li>
+                    <li class="tab black-text"><a class="active" href="#test2">Test 2</a></li>
+                    <li class="tab disabled black-text"><a href="#test3">Disabled Tab</a></li>
+                    <li class="tab black-text"><a href="#test4">Test 4</a></li>*@
+                @*</ul>*@
+
+                <div id="wrapper" class="nav-content">
+                    <ul id="tabs" class="tabs">
+                        <!-- Tabs go here -->
+                    </ul>
+                </div>
+                @*</div>*@
+            </nav>
+
+            <ul id="slide-out" class="sidenav">
+                <li>
+                    <div class="user-view">
+                        <div class="background">
+                            <img src="~/Content/Images/school-holidays-banner.jpg">
+                        </div>
+                        <span class="center-align valign-wrapper"><img class="circle center-align responsive-img valign-wrapper " src="~/Content/Images/ox inc creation - jpg.jpg"></span>
+                        <span class="green-text name center-align">Security.admin</span>
+                        <span class="green-text email center-align">jdandturk@gmail.com</span>
+                    </div>
+                </li>
+                <li><a id="menu" rel="User" @*href='@Url.Action("UserView", "User")'*@ href='#'  title="User" onclick="StudentPageLoad(this, 'User', 'UserView')"><i class="material-icons">create</i>User</a></li>
+                <li><div class="divider"></div></li>
+                <li><a id="menu" href='#' rel="UserBulk" title="User Bulk" onclick="StudentPageLoad(this)"><i class="material-icons">create</i>User Bulk Upload</a></li>
+                <li><div class="divider"></div></li>
+                <li><a id="menu" href='#' class="waves-effect" rel="Student" title="Student"  onclick="StudentPageLoad(this)"><i class="material-icons">create</i>Student</a></li>
+                <li><div class="divider"></div></li>
+                <li><a id="menu" href='#' class="waves-effect" rel="StudentBulk" title="Student Bulk"  onclick="StudentPageLoad(this)"><i class="material-icons">create</i>Student Bulk Upload</a></li>
+                <li><div class="divider"></div></li>
+                <li><a id="menu" class="waves-effect" rel="StudentTracking" title="Student Tracking" href="#" onclick="StudentPageLoad(this)"><i class="material-icons">create</i>Student Tracking</a></li>
+                <li><div class="divider"></div></li>
+                <li><a id="menu" class="waves-effect" href="#" rel="StudentLeave" title="Student Leave Approval" onclick="StudentPageLoad(this)"><i class="material-icons">create</i>Student Leave Approval</a></li>
+                <li><div class="divider"></div></li>
+                <li><a id="menu" class="waves-effect" href="#" rel="StudentAttendance" title="Student Attendance" onclick="StudentPageLoad(this)"><i class="material-icons">create</i>Student Attendance</a></li>
+            </ul>
+        </header>
+    </div>
+    <section>
+        <div class="tab-content" id="content">
+        </div>
+    </section>
+    <script type="text/javascript" src="~/Content/js/materialize.js"></script>
+    <script type="text/javascript" src="~/Content/js/jquery-3.3.1.js"></script>
+    <script type="text/javascript">
+        document.addEventListener('DOMContentLoaded', function () {
+            // M.AutoInit();
+            var elems = document.querySelectorAll('.sidenav');
+            var instances = M.Sidenav.init(elems, 'left', true);
+            var instance = M.Sidenav.getInstance(elems);
+            //instance.open();
+        });
+
+        $("#slide-out a").click(function () {
+            addTab($(this));
+        });
+        function addTab(link) {
+            if ($("#" + $(link).attr("rel")).length != 0)
+                return;
+            // hide other tabs
+            $("#content div").hide();
+
+            // add new tab and related content
+            $("#tabs").append("<li class='tab black-text'><a class='active' id='" +
+         $(link).attr("rel") + "' href='#'>" + (link).attr("title") +
+        "<span class='material-icons' id='remove" + (link).attr("rel") + "'>clear</span></a></li>");
+            $("#content").append("<div id='" + $(link).attr("rel") + "_content'></div>");
+            // set the newly added tab as current
+            $("#" + $(link).attr("rel") + "_content").show();
+            $('#' + $(link).attr("rel")).on('click', hidetab);
+            $('#remove' + (link).attr("rel")).on('click', closetab);
+
+        }
+
+        function hidetab() {
+            // Get the tab name
+            var contentname = $(this).attr("Id") + "_content";
+            // hide all other tabs
+            //$("#content div").hide();
+            // show current tab
+            $("#" + contentname).show();
+            $(this).parent().addClass("tab");
+        }
+        function closetab() {
+            // Get the tab name
+            var tabid = $(this).parent().attr("id");
+            // remove tab and related content
+            var contentname = tabid + "_content";
+            $("#" + contentname).remove();
+            $(this).parent().remove();
+            if ($("#tabs li.tab").length > 0 && $("#tabs li").length > 0) {
+                // find the first tab
+                var firsttab = $("#tabs li:first-child");
+                firsttab.addClass("tab");
+                // get its link name and show related content
+                var firsttabid = $(firsttab).find("a.active").attr("id");
+                $("#" + firsttabid + "_content").show();
+            }
+        }
+        //$('#slide-out').on('click', function () {
+        //    $("#menu").();
+        //    //$("#slide-out").hide();
+        //    //$("#slide-out").removeClass("active");
+        //});
+        function UserPageLoad(link) {
+            if(link.length == 0)
+                return;
+              $.ajax({
+                    type: "GET",
+                    url: "@Url.Action("UserView", "User")",
+                    contentType: "application/html; charset=utf-8",
+                    dataType: "html",
+                    success: function (result) {
+                        $('#' + $(link).attr("rel") + '_content').append(result);
+                    },
+                       fail: function(args){
+                            //this is an error from the server
+                           window.alert(' error : ' + args);
+                        }
+
+
+                });
+        }
+        function UserBulkPageLoad(link) {
+            if(link.length == 0)
+                return;
+            $.ajax({
+                type: "GET",
+                url: "@Url.Action("UserBulkView", "User")",
+                contentType: "application/html; charset=utf-8",
+            dataType: "html",
+            success: function (result) {
+                $('#' + $(link).attr("rel") + '_content').append(result);
+            },
+            fail: function(args){
+                //this is an error from the server
+                window.alert(' error : ' + args);
+            }
+
+
+        });
+        }
+        function StudentPageLoad(link) {
+            if(link.length == 0)
+                return;
+            $.ajax({
+                type: "GET",
+                url:  "@Url.Action("StudentView", "Student")",
+                contentType: "application/html; charset=utf-8",
+            dataType: "html",
+            success: function (result) {
+                $('#' + $(link).attr("rel") + '_content').append(result);
+            },
+            fail: function(args){
+                //this is an error from the server
+                window.alert(' error : ' + args);
+            }
+
+
+        });
+        }
+        function StudentBulkPageLoad(link) {
+            if(link.length == 0)
+                return;
+            $.ajax({
+                type: "GET",
+                url: "@Url.Action("StudentBulkView", "Student")",
+                contentType: "application/html; charset=utf-8",
+            dataType: "html",
+            success: function (result) {
+                $('#' + $(link).attr("rel") + '_content').append(result);
+            },
+            fail: function(args){
+                //this is an error from the server
+                window.alert(' error : ' + args);
+            }
+
+
+        });
+        }
+
+    </script>
+</body>
+</html>

@@ -1,0 +1,82 @@
+﻿
+@{
+    Layout = null;
+    if (Session["UserId"] == null)
+    {
+        Response.Redirect("~/UserLogin/Index");
+    }
+}
+
+<!DOCTYPE html>
+
+<html>
+<head>
+    <!--Import Google Icon Font-->
+    <link href="https://fonts.googleapis.com/icon?family=Material+Icons" rel="stylesheet">
+    <!--Import materialize.css-->
+    <link type="text/css" rel="stylesheet" href="~/Content/css/materialize.min.css" media="screen,projection" />
+
+    <!--Let browser know website is optimized for mobile-->
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+</head>
+<body>
+    <header>
+        <div class="navbar-fixed">
+            <nav class="nav-extended white">
+                <div class="nav-wrapper">
+                    @*<a href="#"><img class="circle" src="~/Content/Images/ox inc creation - jpg.jpg"></a>*@
+                    <a href="#" data-target="sidenav-left" class="left"><i class="material-icons black-text">menu</i></a>
+                    @*<ul id="nav-mobile" class="left hide-on-med-and-down">
+                        <li></li>
+                    </ul>*@
+                    <ul id="nav-mobile" class="right hide-on-med-and-down">
+                        <li><a href="@Url.Action("LogOut","UserLogin")" class="black-text">LogOut</a></li>
+                    </ul>
+                </div>
+                @*<div class="nav-content">
+                    <ul class="tabs tabs-transparent">
+                        <li class="tab"><a href="#test1">Test 1</a></li>
+                        <li class="tab"><a class="active" href="#test2">Test 2</a></li>
+                        <li class="tab disabled"><a href="#test3">Disabled Tab</a></li>
+                        <li class="tab"><a href="#test4">Test 4</a></li>
+                    </ul>
+                </div>*@
+            </nav>
+        </div>
+        <ul id="slide-out" class="sidenav">
+            <li>
+                <div class="user-view">
+                    @*<div class="background">
+                        <img src="images/office.jpg">
+                    </div>*@
+                    <a href="#user"><img class="circle" src="~/Content/Images/ox inc creation - jpg.jpg"></a>
+                    <a href="#name"><span class="white-text name">John Doe</span></a>
+                    <a href="#email"><span class="white-text email">jdandturk@gmail.com</span></a>
+                </div>
+            </li>
+            <li><a href="#!"><i class="material-icons">cloud</i>First Link With Icon</a></li>
+            <li><a href="#!">Second Link</a></li>
+            <li><div class="divider"></div></li>
+            <li><a class="subheader">Subheader</a></li>
+            <li><a class="waves-effect" href="#!">Third Link With Waves</a></li>
+        </ul>
+        <a href="#" data-target="slide-out" class="sidenav-trigger"><i class="material-icons">menu</i></a>
+    </header>
+    <script type="text/javascript" src="~/Content/js/materialize.js"></script>
+    <script type="text/javascript" src="~/Content/js/jquery-3.3.1.min.js"></script>
+    <script type="text/javascript">
+        document.addEventListener('DOMContentLoaded', function () {
+            M.AutoInit();
+            var elems = document.querySelectorAll('.sidenav');
+            var instances = M.Sidenav.init(elems, 'left',true);
+            var instance = M.Sidenav.getInstance(elems);
+            //instance.open();
+        });
+
+        //$(document).ready(function () {
+        //    $('.sidenav').sidenav();
+        //});
+        //debugger;
+    </script>
+</body>
+</html>

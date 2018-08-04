@@ -8,7 +8,7 @@ using MySql.Data.MySqlClient;
 using Proj1.Metamodel;
 using Proj1.Metamodel.User;
 using Z.Dapper.Plus;
- 
+
 namespace Proj1.Helpers
 {
     public class ExcelParser

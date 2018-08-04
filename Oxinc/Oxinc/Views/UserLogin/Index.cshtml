@@ -1,0 +1,85 @@
+﻿@model Oxinc.Models.UserLogin
+
+@{
+    Layout = null;
+}
+
+<!DOCTYPE html>
+
+<html>
+<head>
+    <!--Import Google Icon Font-->
+    <link href="https://fonts.googleapis.com/icon?family=Material+Icons" rel="stylesheet">
+    <!--Import materialize.css-->
+    <link type="text/css" rel="stylesheet" href="~/Content/css/materialize.min.css" media="screen,projection" />
+
+    <!--Let browser know website is optimized for mobile-->
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+</head>
+<body>
+    @using (Html.BeginForm("Authorize", "UserLogin", FormMethod.Post))
+    {
+        @Html.AntiForgeryToken()
+        <div class="row valign-wrapper center-align">
+
+            <div class="col s12 m12 center-align offset-s3">
+                <div class="col s4 m4 center-align offset-s3"></div>
+                <div class="col s4 m4 center-align offset-s3">
+                    <div class="card medium">
+                        <div class="card-content center-align">
+                            <div class="row">
+                                <span class="card-title center-align">Login to your Account</span>
+                            </div>
+                            <div class="row">
+                                <div class="input-field col s10">
+                                    <i class="material-icons prefix">account_circle</i>
+                                    @Html.TextBoxFor(x => x.loginname, htmlAttributes: new { @class = "validate", id = "icon_account_circle" })
+                                    <label for="icon_account_circle">User Name</label>
+                                </div>
+                            </div>
+                            <div class="row">
+                                <div class="input-field col s10">
+                                    <i class="material-icons prefix">person_pin</i>
+                                    @Html.PasswordFor(x => x.password, htmlAttributes: new { @class = "validate", id = "icon_person_pin" })
+                                    <label for="password">Password</label>
+                                    @Html.ValidationMessageFor(x => x.loginname)
+                                    @Html.ValidationMessageFor(x => x.password)
+                                    <label class="field-validation-error">@Html.DisplayFor(x => x.loginerrormessage)</label>
+                                </div>
+                            </div>
+                            <div class="row">
+                                <button class="btn-large waves-effect waves-light center-align push-s12 hoverable s12" type="submit" onclick="myFunction()" id="Login" name="action">
+                                    Login
+                                    <i class="material-icons right center-align s10">send</i>
+                                </button>
+                            </div>
+                            <div class="row">
+                                <ul>
+                                    <li>
+                                        <a class="yellow-text text-darken-3 center-align" href="#modal1">Forgot  your Password?</a>
+                                    </li>
+                                    <li>
+                                        <label class="field-validation-error">@Html.DisplayFor(x => x.loginerrormessage)</label>
+                                    </li>
+                                </ul>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <div class="col s4 m4 center-align offset-s3"></div>
+            </div>
+        </div>
+
+
+            <script type="text/javascript" src="~/Content/js/materialize.min.js"></script>
+            <script type="text/javascript" src="~/Content/js/jquery-3.3.1.min.js"></script>
+            <script type="text/javascript">
+                function myFunction() {
+                    $("#icon_account_circle").prop('required', true);
+                    $("#icon_person_pin").prop('required', true);
+                }
+
+            </script>
+   }
+</body>
+</html>
