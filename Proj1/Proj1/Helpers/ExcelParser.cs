@@ -13,16 +13,22 @@ namespace Proj1.Helpers
 {
     public class ExcelParser
     {
-        public static string FileName = "D:\\UsersExcel.xlsx";
+        public static string FileName { get; private set; }
 
         const string _userSheetName = "[Users$]";
         const string _roleSheetName = "[Roles$]";
         const string _rolesForUserSheetName = "[RolesForUsers$]";
         const string _userSiteAccessSheetName = "[UserSiteAccesses$]";
+        
 
-        public static void PersistExcelData()
+        public static void PersistExcelData(string fileName)
         {
-            FillEntities(out IEnumerable<User> users, out IEnumerable<Role> roles, out IEnumerable<UserSiteAccess> userSiteAccesses, out IEnumerable<RolesForUser> rolesForUsers);
+            FileName = fileName;
+            IEnumerable<User> users;
+            IEnumerable<Role> roles;
+            IEnumerable<RolesForUser> rolesForUsers;
+            IEnumerable<UserSiteAccess> userSiteAccesses;
+            FillEntities(out users, out roles, out userSiteAccesses, out rolesForUsers);
             Persist(users, roles, userSiteAccesses, rolesForUsers);
         }
 
@@ -94,6 +100,7 @@ namespace Proj1.Helpers
                 }
                 catch(InvalidCastException ex)
                 {
+                    ValidationResult.AddValidation(rowCount, ex.Message);
                     ValidationResult.AddValidation(rowCount, "Please check the date formats of this row.");
                 }
             }

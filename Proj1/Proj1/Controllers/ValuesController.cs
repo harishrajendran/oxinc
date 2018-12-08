@@ -20,9 +20,9 @@ namespace Proj1.Controllers
         }
 
         // GET api/values/5
-        public string Get(int id)
+        public string Get(string fileName)
         {
-            ExcelParser.PersistExcelData();
+            ExcelParser.PersistExcelData(fileName);
 
             if (ValidationResult.Validations.Any())
             {
