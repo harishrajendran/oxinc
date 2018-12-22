@@ -2,9 +2,10 @@
 using System.Collections.Generic;
 using System.Data;
 using System.Data.Entity.Core.Common.CommandTrees.ExpressionBuilder;
-using System.Data.OleDb;
 using System.Linq;
+using Dapper;
 using MySql.Data.MySqlClient;
+using Newtonsoft.Json;
 using Proj1.Metamodel;
 using Proj1.Metamodel.User;
 using Z.Dapper.Plus;
@@ -13,61 +14,63 @@ namespace Proj1.Helpers
 {
     public class ExcelParser
     {
-        public static string FileName { get; private set; }
-
         const string _userSheetName = "[Users$]";
         const string _roleSheetName = "[Roles$]";
         const string _rolesForUserSheetName = "[RolesForUsers$]";
         const string _userSiteAccessSheetName = "[UserSiteAccesses$]";
         
 
-        public static void PersistExcelData(string fileName)
+        public static void PersistExcelData(string excelJson)
         {
-            FileName = fileName;
+            DataSet dataSet = new DataSet();
+            try
+            {
+                dataSet = (DataSet)JsonConvert.DeserializeObject(excelJson, typeof(DataSet));
+            }
+            catch
+            {
+                throw new Exception("Parse exception. Please contact the adminstrator");
+            }
+
             IEnumerable<User> users;
             IEnumerable<Role> roles;
             IEnumerable<RolesForUser> rolesForUsers;
             IEnumerable<UserSiteAccess> userSiteAccesses;
-            FillEntities(out users, out roles, out userSiteAccesses, out rolesForUsers);
-            Persist(users, roles, userSiteAccesses, rolesForUsers);
+            FillEntities(dataSet, out users, out roles, out userSiteAccesses, out rolesForUsers);
+            //Persist(users, roles, userSiteAccesses, rolesForUsers);
         }
 
-        private static void FillEntities(out IEnumerable<User> users, out IEnumerable<Role> roles, out IEnumerable<UserSiteAccess> userSiteAccesses, out IEnumerable<RolesForUser> rolesForUsers)
+        private static void FillEntities(DataSet dataSet, out IEnumerable<User> users, out IEnumerable<Role> roles, out IEnumerable<UserSiteAccess> userSiteAccesses, out IEnumerable<RolesForUser> rolesForUsers)
         {
-            var userDataSet = GetDataSet(_userSheetName);
-            users = FillUser(userDataSet);
+            users = FillUser(dataSet.Tables[_userSheetName]);
             ValidationHelper.ValidateEntities(users);
+            
+            roles = FillRole(dataSet.Tables[_roleSheetName]);
 
-            var userSiteAccessDataSet = GetDataSet(_userSiteAccessSheetName);
-            userSiteAccesses = FillUserSiteAccess(userSiteAccessDataSet);
+            rolesForUsers = FillRoleForUser(dataSet.Tables[_rolesForUserSheetName]);
 
-            var roleDataSet = GetDataSet(_roleSheetName);
-            roles = FillRole(roleDataSet);
-
-            var rolesForUserDataSet = GetDataSet(_rolesForUserSheetName);
-            rolesForUsers = FillRoleForUser(rolesForUserDataSet);
+            userSiteAccesses = FillUserSiteAccess(dataSet.Tables[_userSiteAccessSheetName]);
         }
 
-        private static DataSet GetDataSet(string worksheetName)
+        //private static DataSet GetDataSet(string worksheetName)
+        //{
+        //    String sExcelConnectionString = "Provider=Microsoft.ACE.OLEDB.12.0;Data Source=" + FileName + ";Extended Properties=Excel 12.0";
+        //    //String sExcelConnectionString = "Provider=Microsoft.Jet.Oledb.4.0;Data Source=" + filename + ";Extended Properties=Excel 8.0;Mode=ReadWrite|Share Deny None;Persist Security Info=False";
+        //    OleDbConnection OleDbConn = new OleDbConnection(sExcelConnectionString);
+
+        //    OleDbConn.Open();
+        //    OleDbCommand OleDbCmd = new OleDbCommand(("SELECT * FROM " + worksheetName), OleDbConn);
+
+        //    DataSet dataSet = new DataSet();
+
+        //    OleDbDataAdapter sda = new OleDbDataAdapter(OleDbCmd);
+        //    sda.Fill(dataSet);
+        //    OleDbConn.Close();
+        //    return dataSet;
+        //}
+
+        private static IEnumerable<User> FillUser(DataTable userTable)
         {
-            String sExcelConnectionString = "Provider=Microsoft.ACE.OLEDB.12.0;Data Source=" + FileName + ";Extended Properties=Excel 12.0";
-            //String sExcelConnectionString = "Provider=Microsoft.Jet.Oledb.4.0;Data Source=" + filename + ";Extended Properties=Excel 8.0;Mode=ReadWrite|Share Deny None;Persist Security Info=False";
-            OleDbConnection OleDbConn = new OleDbConnection(sExcelConnectionString);
-
-            OleDbConn.Open();
-            OleDbCommand OleDbCmd = new OleDbCommand(("SELECT * FROM " + worksheetName), OleDbConn);
-
-            DataSet dataSet = new DataSet();
-
-            OleDbDataAdapter sda = new OleDbDataAdapter(OleDbCmd);
-            sda.Fill(dataSet);
-            OleDbConn.Close();
-            return dataSet;
-        }
-
-        private static IEnumerable<User> FillUser(DataSet parsedDataSet)
-        {
-            var userTable = parsedDataSet.Tables[0];
             List<User> users = new List<User>();
             var rowCount = 0;
 
@@ -108,9 +111,8 @@ namespace Proj1.Helpers
             return users;
         }
 
-        private static IEnumerable<Role> FillRole(DataSet parsedDataSet)
+        private static IEnumerable<Role> FillRole(DataTable roleTable)
         {
-            var roleTable = parsedDataSet.Tables[0];
             List<Role> roles = new List<Role>();
 
             foreach (DataRow row in roleTable.Rows)
@@ -133,9 +135,8 @@ namespace Proj1.Helpers
             return roles;
         }
 
-        private static IEnumerable<RolesForUser> FillRoleForUser(DataSet parsedDataSet)
+        private static IEnumerable<RolesForUser> FillRoleForUser(DataTable rolesForUserTable)
         {
-            var rolesForUserTable = parsedDataSet.Tables[0];
             List<RolesForUser> rolesForUsers = new List<RolesForUser>();
 
             foreach (DataRow row in rolesForUserTable.Rows)
@@ -156,9 +157,8 @@ namespace Proj1.Helpers
             return rolesForUsers;
         }
 
-        private static IEnumerable<UserSiteAccess> FillUserSiteAccess(DataSet parsedDataSet)
+        private static IEnumerable<UserSiteAccess> FillUserSiteAccess(DataTable userSiteAccessTable)
         {
-            var userSiteAccessTable = parsedDataSet.Tables[0];
             List<UserSiteAccess> userSiteAccesses = new List<UserSiteAccess>();
 
             foreach (DataRow row in userSiteAccessTable.Rows)
@@ -246,6 +246,25 @@ namespace Proj1.Helpers
             {
                 throw;
             }
+        }
+
+        public static IEnumerable<User> GetUsersForBrowse()
+        {
+            var connection = WebApiConfig.Connection();
+            var users = new List<User>();
+            try
+            {
+                connection.Open();
+                var sqlCommand = "SELECT * FROM Users WHERE Status = 'Active'";
+                users.AddRange(connection.Query<User>(sqlCommand));
+                connection.Close();
+            }
+            catch(MySqlException)
+            {
+                throw;
+            }
+
+            return users;
         }
     }
 }

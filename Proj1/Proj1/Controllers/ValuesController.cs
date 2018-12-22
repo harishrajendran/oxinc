@@ -22,8 +22,20 @@ namespace Proj1.Controllers
         // GET api/values/5
         public string Get(string fileName)
         {
-            ExcelParser.PersistExcelData(fileName);
+            return string.Empty;
+        }
 
+        // POST api/values
+        public HttpResponseMessage Post([FromBody]dynamic file)
+        {
+            var response = Request.CreateResponse(HttpStatusCode.OK);
+            var fileContent = Convert.ToString(file);
+
+            if (Convert.ToString(file).IsNullOrWhiteSpace())
+                response = Request.CreateResponse(HttpStatusCode.PreconditionFailed, "Error sending data. Please contact the administrator");
+
+            ExcelParser.PersistExcelData(fileContent);
+            
             if (ValidationResult.Validations.Any())
             {
                 string validationMessage = "";
@@ -32,15 +44,11 @@ namespace Proj1.Controllers
                     validationMessage += $"{validation.Key.ToString()} - {validation.Value}";
                     validationMessage += "\n";
                 }
-                return validationMessage;
+
+                response = Request.CreateResponse(HttpStatusCode.ExpectationFailed, validationMessage);
             }
-            return "Its done";
-        }
 
-        // POST api/values
-        public void Post([FromBody]dynamic value)
-        {
-
+            return response;
         }
 
         // PUT api/values/5
