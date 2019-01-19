@@ -1,0 +1,56 @@
+﻿<?xml version="1.0" encoding="utf-8" ?>
+<ContentPage xmlns="http://xamarin.com/schemas/2014/forms"
+             xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
+             x:Class="OxincNotification.Views.LeaveApprovalBrowse"
+             Title="Leave Approval">
+
+    <!--<Label Text="Test"></Label>-->
+    <ContentPage.Content>
+        <StackLayout>
+            <ListView x:Name="list"   ItemTapped="OnItemSelected" RowHeight="70">
+                <ListView.ItemTemplate>
+                    <DataTemplate>
+                        <ViewCell>
+                            <Grid Padding="5">
+                                <Grid.RowDefinitions>
+                                    <RowDefinition Height="30"></RowDefinition>
+                                    <RowDefinition Height="30"></RowDefinition>
+                                </Grid.RowDefinitions>
+                                <Grid.ColumnDefinitions>
+                                    <ColumnDefinition Width="55"></ColumnDefinition>
+                                    <ColumnDefinition Width="*"></ColumnDefinition>
+                                </Grid.ColumnDefinitions>
+
+                                <Image Grid.Row="0" Grid.RowSpan="2" Grid.Column="0" Source="login.png" Aspect="AspectFit"/>
+                                <Label Grid.Row="0" Grid.Column="1" Text="{Binding DisplayName}" FontAttributes="Bold" FontSize="Large" LineBreakMode="TailTruncation"></Label>
+                                <Label Grid.Row="1" Grid.Column="1" Text="{Binding LeaveDays}" FontSize="Medium"  TextColor="Gray" LineBreakMode="TailTruncation"></Label>
+                            </Grid>
+                        </ViewCell>
+                    </DataTemplate>
+                </ListView.ItemTemplate>
+            </ListView>
+        </StackLayout>
+    </ContentPage.Content>
+</ContentPage>
+
+<!--<?xml version="1.0" encoding="utf-8" ?>
+<ContentPage xmlns="http://xamarin.com/schemas/2014/forms"
+             xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
+             x:Class="OxincNotification.Views.LeaveApprovalPage">
+    <ContentPage.Content>
+        <StackLayout>
+            <ListView x:Name="ApprovalBrowseItems"
+                      ItemsSource="{Binding LeaveApprovals}"
+                      VerticalOptions="FillAndExpand"
+                      HasUnevenRows="true"
+                      RefreshCommand="{Binding LoadItemsCommand}"
+                      IsPullToRefreshEnabled="true"
+                      IsRefreshing="{Binding IsBusy, Mode=OneWay}"
+                      CachingStrategy="RecycleElement"
+                      
+                      ItemSelected="OnItemSelected">
+
+            </ListView>
+        </StackLayout>
+    </ContentPage.Content>
+</ContentPage>-->

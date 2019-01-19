@@ -1,0 +1,51 @@
+﻿<?xml version="1.0" encoding="utf-8" ?>
+<ContentPage xmlns="http://xamarin.com/schemas/2014/forms"
+             xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
+             xmlns:control="clr-namespace:IntelliAbb.Xamarin.Controls;assembly=IntelliAbb.Xamarin.Controls"
+             x:Class="OxincNotification.Views.StudentODPage"
+             Title="Student OD">
+    <ContentPage.Content>
+        <Grid>
+            <Grid.RowDefinitions>
+                <RowDefinition Height="50"/>
+                <RowDefinition Height="50"/>
+                <RowDefinition Height="70"/>
+                <RowDefinition Height="70"/>
+                <RowDefinition Height="50"/>
+                <RowDefinition Height="70"/>
+                <RowDefinition Height="70"/>
+                <RowDefinition Height="50"/>
+                <RowDefinition Height="50"/>
+            </Grid.RowDefinitions>
+            <StackLayout Orientation="Horizontal" HorizontalOptions="Center" Grid.Row="1">
+                <Label FontSize="Medium" VerticalOptions="Center" Text="Roll Number :" TextColor="Black"/>
+                <Editor HeightRequest="50" WidthRequest="175" IsEnabled="{Binding StudentOD.IsActive}"  HorizontalOptions="Center" TextColor="Black" Placeholder="RollNumber" Text="{Binding StudentOD.StudentRollNumber, Mode=TwoWay}" />
+            </StackLayout>
+            <StackLayout Orientation="Horizontal" HorizontalOptions="Center" Grid.Row="2">
+                <Label FontSize="Medium" VerticalOptions="Center" Text="From Date :" TextColor="Black"/>
+                <DatePicker FontSize="Medium" IsEnabled="{Binding StudentOD.IsActive}" Date="{Binding StudentOD.FromDate, Mode=TwoWay}"/>
+            </StackLayout>
+            <StackLayout Orientation="Horizontal" HorizontalOptions="Center" Grid.Row="3">
+                <Label FontSize="Medium" VerticalOptions="Center" Text="To Date :" TextColor="Black"/>
+                <DatePicker FontSize="Medium" IsEnabled="{Binding StudentOD.IsActive}" Date="{Binding StudentOD.ToDate, Mode=TwoWay}"/>
+            </StackLayout>
+            <StackLayout  Grid.Row="4" Orientation="Horizontal" HorizontalOptions="Center">
+                <Editor HeightRequest="50" WidthRequest="175"  HorizontalOptions="Center" TextColor="Black" Placeholder="Reason" Text="{Binding StudentOD.Reason, Mode=TwoWay}" />
+            </StackLayout>
+            <StackLayout Grid.Row="5" Orientation="Horizontal" HorizontalOptions="Center">
+                <!--<control:Checkbox Content="Consider as leave" IsChecked="{Binding StudentOD.IsConsiderLeave, Mode=TwoWay}"/>-->
+                <Switch IsToggled="{Binding StudentOD.IsActive}" IsEnabled="{Binding StudentOD.IsActive}"/>
+                <Label VerticalOptions="Center" FontSize="Medium" Text="Is active"/>
+            </StackLayout>
+            <StackLayout Grid.Row="6" Orientation="Horizontal" HorizontalOptions="Center">
+                <!--<control:Checkbox Content="Consider as leave" IsChecked="{Binding StudentOD.IsConsiderLeave, Mode=TwoWay}"/>-->
+                <Switch IsToggled="{Binding StudentOD.IsConsiderLeave}" IsEnabled="{Binding StudentOD.IsActive}"/>
+                <Label VerticalOptions="Center" FontSize="Medium" Text="Consider as leave"/>
+                <Label Text="{Binding Validation}" FontSize="Medium" TextColor="Red"/>
+            </StackLayout>
+            <StackLayout Orientation="Horizontal" Grid.Row="7" HorizontalOptions="Center">
+                <Button HorizontalOptions="Center" Text="Save" IsVisible="{Binding StudentOD.IsActive}" Clicked="SaveClicked"/>
+            </StackLayout>
+        </Grid>
+    </ContentPage.Content>
+</ContentPage>

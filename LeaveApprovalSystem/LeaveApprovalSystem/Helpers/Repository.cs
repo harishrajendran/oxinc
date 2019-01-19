@@ -6,12 +6,29 @@ using MySql.Data.MySqlClient;
 using System.Data;
 using Dapper;
 using LeaveApprovalSystem.Models;
+using System.Configuration;
 
 namespace LeaveApprovalSystem.Helpers
 {
     public static class Repository
     {
-        private static readonly string connectionstring = @"Data Source=localhost;port=3307;Initial Catalog=userdb;User Id=root;password=Password-1";
+        public static string GetRDSConnectionString()
+        {
+            var appConfig = ConfigurationManager.AppSettings;
+
+            string dbname = appConfig["RDS_DB_NAME"];
+
+            if (string.IsNullOrEmpty(dbname)) return null;
+
+            string username = appConfig["RDS_USERNAME"];
+            string password = appConfig["RDS_PASSWORD"];
+            string hostname = appConfig["RDS_HOSTNAME"];
+            string port = appConfig["RDS_PORT"];
+
+            return "Data Source=" + hostname + ";Initial Catalog=" + dbname + ";User ID=" + username + ";Password=" + password + ";";
+        }
+
+        private static readonly string connectionstring = GetRDSConnectionString();
         //System.Configuration.ConfigurationManager.ConnectionStrings["constr"].ConnectionString;
         //@"Data Source=localhost;port=3307;Initial Catalog=userdb;User Id=root;password=Password-1";
         public static IEnumerable<object> executeBrowserSP(string procedurename, DynamicParameters param)

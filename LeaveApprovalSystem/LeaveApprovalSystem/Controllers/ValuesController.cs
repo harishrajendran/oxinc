@@ -9,24 +9,24 @@ using LeaveApprovalSystem.Helpers;
 
 namespace LeaveApprovalSystem.Controllers
 {
-    [Authorize]
+    //[Authorize]
     public class ValuesController : ApiController
     {
         // GET api/values
-        public IEnumerable<string> Get()
-        {
-            return new string[] { "value1", "value2" };
-        }
+        //public IEnumerable<string> Get()
+        //{
+        //    return new string[] { "value1", "value2" };
+        //}
 
         // GET api/values/5
-        public List<BrowseModel> Get(filtercriteria value)
+        public List<BrowseModel> Get([FromBody]filtercriteria value)
         {
             Helpers.LeaveApproval leaveapproval = new Helpers.LeaveApproval();
             return leaveapproval.BrowseLeaveRequest(value);
         }
 
         // POST api/values
-        public void Post(Data value)
+        public void Post([FromBody]Data value)
         {
             Models.LeaveApproval leaveapprovalrequest = value.gettingleaveapproval;
             Helpers.LeaveApproval leaveapproval = new Helpers.LeaveApproval();

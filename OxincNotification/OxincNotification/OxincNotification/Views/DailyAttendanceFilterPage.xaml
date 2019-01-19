@@ -1,0 +1,30 @@
+﻿<?xml version="1.0" encoding="utf-8" ?>
+<ContentPage xmlns="http://xamarin.com/schemas/2014/forms"
+             xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
+             x:Class="OxincNotification.Views.DailyAttendanceFilterPage">
+    <ContentPage.Content>
+        <StackLayout>
+            <StackLayout VerticalOptions="Center">
+                <Label VerticalOptions="Center" Text="Options:"/>
+                <Picker ItemsSource="{Binding Options}" SelectedItem="{Binding OptionChosen}"/>
+            </StackLayout>
+            <StackLayout HorizontalOptions="Center" VerticalOptions="Center">
+                <StackLayout>
+                    <Label VerticalOptions="Center" Text="Date"/>
+                    <DatePicker Date="{Binding CurrentDate}"/>
+                </StackLayout>
+            </StackLayout><StackLayout HorizontalOptions="Center" VerticalOptions="Center">
+                <StackLayout>
+                    <Label VerticalOptions="Center" Text="Month"/>
+                    <DatePicker Date="{Binding Month}"/>
+                </StackLayout>
+            </StackLayout><StackLayout HorizontalOptions="Center" VerticalOptions="Center">
+                <Grid>
+                    <Grid.RowDefinitions>
+                        
+                    </Grid.RowDefinitions>
+                </Grid>
+            </StackLayout>
+        </StackLayout>
+    </ContentPage.Content>
+</ContentPage>

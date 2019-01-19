@@ -1,0 +1,42 @@
+{
+  "project_info": {
+    "project_number": "695725022968",
+    "firebase_url": "https://oxincnotificationtest.firebaseio.com",
+    "project_id": "oxincnotificationtest",
+    "storage_bucket": "oxincnotificationtest.appspot.com"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:695725022968:android:97ad093147952973",
+        "android_client_info": {
+          "package_name": "com.xamarin.oxincnotification"
+        }
+      },
+      "oauth_client": [
+        {
+          "client_id": "695725022968-1p3qn6480q628jpe2aathc67si9u7tpu.apps.googleusercontent.com",
+          "client_type": 3
+        }
+      ],
+      "api_key": [
+        {
+          "current_key": "AIzaSyD58VemCnlN3lK1q_PPjcWWEgyvnASzPWI"
+        }
+      ],
+      "services": {
+        "analytics_service": {
+          "status": 1
+        },
+        "appinvite_service": {
+          "status": 1,
+          "other_platform_oauth_client": []
+        },
+        "ads_service": {
+          "status": 2
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}

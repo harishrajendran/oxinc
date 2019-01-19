@@ -1,0 +1,32 @@
+﻿<?xml version="1.0" encoding="utf-8" ?>
+<ContentPage xmlns="http://xamarin.com/schemas/2014/forms"
+             xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
+             x:Class="OxincNotification.Views.LeaveApprovalPage"
+             Title="Leave Approval">
+
+    <!--<Label Text="Test"></Label>-->
+    <ContentPage.Content>
+        <Grid>
+            <Grid.RowDefinitions>
+                <RowDefinition Height="15"/>
+                <RowDefinition Height="150"/>
+                <RowDefinition Height="300"/>
+                <RowDefinition Height="2"/>
+                <RowDefinition Height="50"/>
+            </Grid.RowDefinitions>
+            <Image Grid.Row="1" Source="login.png" Aspect="AspectFit"/>
+            <StackLayout Orientation="Vertical" Grid.Row="2">
+                <Label x:Name="rollNumber" HeightRequest="50" FontSize="Medium" FontAttributes="Bold" HorizontalTextAlignment="Center" TextColor="Black" Text="{Binding LeaveApproval.RollNumber}" />
+                <Label x:Name="leaveDays" HeightRequest="50" FontSize="Medium" FontAttributes="Bold" HorizontalTextAlignment="Center" TextColor="Black" Text="{Binding LeaveApproval.LeaveDays}" />
+                <Label x:Name="leaveReason" HeightRequest="50" FontSize="Medium" FontAttributes="Bold" HorizontalTextAlignment="Center"  TextColor="Black" Text="{Binding LeaveApproval.LeaveReason}" />
+                <Editor x:Name="rejectionReason" HeightRequest="50" WidthRequest="250"  HorizontalOptions="Center" TextColor="Black" Placeholder="Rejection reason" Text="{Binding LeaveApproval.RejectionReason}" />
+                <Label HorizontalOptions="Center" TextColor="Red" Text="Please enter rejection reason" IsVisible="{Binding IsRejectionInvalid}"/>
+            </StackLayout>
+            <StackLayout Grid.Row="4" Orientation="Horizontal" HorizontalOptions="Center">
+                <Button HorizontalOptions="Center" Text="Approve" Clicked="ApproveClicked"/>
+                <Button HorizontalOptions="Center" Text="Reject" Clicked="RejectClicked"/>
+            </StackLayout>
+
+        </Grid>
+    </ContentPage.Content>
+</ContentPage>

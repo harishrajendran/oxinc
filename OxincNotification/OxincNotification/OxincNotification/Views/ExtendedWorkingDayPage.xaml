@@ -1,0 +1,45 @@
+﻿<?xml version="1.0" encoding="utf-8" ?>
+<ContentPage xmlns="http://xamarin.com/schemas/2014/forms"
+             xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
+             xmlns:converters="clr-namespace:OxincNotification.Views"
+             x:Class="OxincNotification.Views.ExtendedWorkingDayPage"
+             Title="Extended Working Day">
+    <ContentPage.Content>
+        <Grid>
+            <Grid.RowDefinitions>
+                <RowDefinition Height="50"/>
+                <RowDefinition Height="70"/>
+                <RowDefinition Height="70"/>
+                <RowDefinition Height="70"/>
+                <RowDefinition Height="70"/>
+                <RowDefinition Height="70"/>
+                <RowDefinition Height="50"/>
+                <RowDefinition Height="50"/>
+            </Grid.RowDefinitions>
+            <StackLayout Orientation="Horizontal" HorizontalOptions="Center" Grid.Row="1">
+                <Label FontSize="Medium" VerticalOptions="Center" Text="Type :" TextColor="Black"/>
+                <Label FontSize="Medium" VerticalOptions="Center" Text="{Binding ExtendedWorkingDay.type}" TextColor="Black"/>
+            </StackLayout>
+            <StackLayout Orientation="Horizontal" HorizontalOptions="Center" Grid.Row="2">
+                <Label FontSize="Medium" VerticalOptions="Center" Text="Status :" TextColor="Black"/>
+                <Label FontSize="Medium" VerticalOptions="Center" Text="{Binding ExtendedWorkingDay.status}" TextColor="Black"/>
+            </StackLayout>
+            <StackLayout Orientation="Horizontal" HorizontalOptions="Center" Grid.Row="3">
+                <Label FontSize="Medium" VerticalOptions="Center" Text="Working Day :" TextColor="Black"/>
+                <DatePicker FontSize="Medium" Date="{Binding ExtendedWorkingDay.ExtendedWorkingDate, Mode=TwoWay}" IsEnabled="{Binding ShouldEnableFields}"/>
+            </StackLayout>
+            <StackLayout  Grid.Row="4" Orientation="Horizontal" HorizontalOptions="Center" IsVisible="{Binding IsSpecialClass}">
+                <Label FontSize="Medium" VerticalOptions="Center" Text="From Time:" TextColor="Black"/>
+                <TimePicker FontSize="Medium" Time="{Binding FromTime, Mode=TwoWay}" IsEnabled="{Binding ShouldEnableFields}"/>
+            </StackLayout>
+            <StackLayout Grid.Row="5" Orientation="Horizontal" HorizontalOptions="Center" IsVisible="{Binding IsSpecialClass}">
+                <Label FontSize="Medium" VerticalOptions="Center" Text="To Time :" TextColor="Black"/>
+                <TimePicker FontSize="Medium" Time="{Binding ToTime, Mode=TwoWay}" IsEnabled="{Binding ShouldEnableFields}"/>
+            </StackLayout>
+            <StackLayout Orientation="Horizontal" Grid.Row="7" HorizontalOptions="Center">
+                <Button HorizontalOptions="Center" Text="Save" Clicked="SaveClicked" IsVisible="{Binding IsCreate}"/>
+                <Button HorizontalOptions="Center" Text="Cancel Special class" Clicked="CancelClicked" IsVisible="{Binding IsCancelEnabled}"/>
+            </StackLayout>
+        </Grid>
+    </ContentPage.Content>
+</ContentPage>
